@@ -1,4 +1,0 @@
-- [ ] Finish schematic
-- [ ] Check I2C addresses
-- [ ] Check amperages
-- [ ] Make PCB

@@ -1,0 +1,21 @@
+Item,Amount,Owned,Needed,Unit Price,Total Price,Link,Config
+Motors and wheels,2,0,2,"16,35 €","32,70 €",https://es.aliexpress.com/item/4001339371886.html,12V530
+Buzzer,1,1,0,-,"0,00 €",-,-
+RGB LED,1,1,0,-,"0,00 €",-,-
+BMS Resistors,6,6,0,-,"0,00 €",-,-
+TB6612FNG Motor drivers,2,0,2,"2,02 €","4,04 €",https://es.aliexpress.com/item/1005006983040834.html,TB6612FNG Weld
+ESP32 DevKitC,1,0,1,"5,34 €","5,34 €",https://es.aliexpress.com/item/1005008256121637.html,32D-Type-C-1PCS
+PCF8575 GPIO Expander,1,0,1,"1,64 €","1,64 €",https://es.aliexpress.com/item/1005002073772322.html,1PCS
+ADS1115 ADC,1,0,1,"1,48 €","1,48 €",https://es.aliexpress.com/item/32311656694.html,ADS1115 Blue
+MPU9250 IMU,1,0,1,"6,89 €","6,89 €",https://es.aliexpress.com/item/1005009033822037.html,GY-9250 original
+TCS34725 Color sensor,2,0,2,"2,85 €","5,70 €",https://es.aliexpress.com/item/1005009651619906.html,1pcs
+XT60 Connectors,2,0,2,"3,94 €","7,88 €",https://es.aliexpress.com/item/1005004628891959.html,2 pairs male female
+JST-XH Connector kit,1,0,1,"7,93 €","7,93 €",https://es.aliexpress.com/item/1005008638438956.html,-
+12V to 6V converter,1,0,1,"2,90 €","2,90 €",https://es.aliexpress.com/item/1005007763337343.html,6V
+Servo attachments,2,0,2,"10,03 €","20,06 €",https://es.aliexpress.com/item/1005002272302617.html,With 25mm arm x1
+Motor attachments,2,0,2,"16,35 €","32,70 €",https://es.aliexpress.com/item/4001339371886.html,Decide when next season is released
+Velcro for battery and converter,1,0,1,"1,30 €","1,30 €",https://es.aliexpress.com/item/1005008938790125.html,Black 1M
+Battery,2,0,2,"14,00 €","27,99 €",https://www.amazon.es/Zeee-Bater%C3%ADa-Veh%C3%ADculos-Cuadric%C3%B3ptero-Helic%C3%B3ptero/dp/B0BYNSH6Q7,-
+Cable for sensors and motors,1,0,1,"1,69 €","1,69 €",https://es.aliexpress.com/item/1005006566120439.html,2m 22 AWG
+PCB,1,0,1,"9,09 €","9,09 €",https://jlcpcb.com,
+TOTAL,,,,,"169,33€ ($199.38)",,

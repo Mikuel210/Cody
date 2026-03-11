@@ -41,10 +41,6 @@ The World Robot Olympiad (WRO) is a global robotics competition. For the Robomis
 
 My team has been using Lego Spike since we started competing, but it's starting to show its limitations. This year, we went to the international final for the first time. Robomission had opened up to all hardwares for the first time this year, which means other teams could make faster, more precise and more reliable robots than what we could possibly do with Lego. I'm designing this robot to be faster, more precise and more reliable than our previous robots with the power of open hardware.
 
-## Onshape Document
-
-https://cad.onshape.com/documents/260b0a88adbc970035266293/w/ce63ac66f2f848d4fa4400ea/e/e148cc90b3821c2fc497715b?renderMode=1&uiState=69b1ed001121df76ba1aad64
-
 ## PCB
 
 ![PCB 3D model](Images/PCB3D.png)
@@ -56,6 +52,10 @@ https://cad.onshape.com/documents/260b0a88adbc970035266293/w/ce63ac66f2f848d4fa4
 ## Wiring diagram
 
 ![Wiring diagram](Images/WiringDiagram.png)
+
+## Onshape Document
+
+https://cad.onshape.com/documents/260b0a88adbc970035266293/w/ce63ac66f2f848d4fa4400ea/e/e148cc90b3821c2fc497715b?renderMode=1&uiState=69b1ed001121df76ba1aad64
 
 ## BOM
 

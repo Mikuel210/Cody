@@ -595,6 +595,22 @@
       {
         "netclass": "5A (12V power)",
         "pattern": "+12V"
+      },
+      {
+        "netclass": "2A (Motors)",
+        "pattern": "/A3_OUT_1"
+      },
+      {
+        "netclass": "2A (Motors)",
+        "pattern": "/A3_OUT_2"
+      },
+      {
+        "netclass": "2A (Motors)",
+        "pattern": "/A4_OUT_1"
+      },
+      {
+        "netclass": "2A (Motors)",
+        "pattern": "/A4_OUT_2"
       }
     ]
   },

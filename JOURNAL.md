@@ -1,4 +1,4 @@
-22 50
+14 50
 
 linear rail:
 https://es.aliexpress.com/item/4000762343261.html

@@ -39,7 +39,7 @@ The World Robot Olympiad (WRO) is a global robotics competition. For the Robomis
 
 ## Why I made this
 
-My team has been using Lego Spike since we started competing, but it's starting to show its limitations. This year, we went to the international final for the first time. Robomission had opened up to all hardwares for the first time this year, which means other teams could make faster, more precise and more reliable robots than what we could possibly do with Lego. I'm designing this robot to be faster, more precise and more reliable than our previous robots with the power of open hardware.
+My team has been using Lego Spike since we started competing, but it's starting to show its limitations. Last year, we went to the international final for the first time. Robomission had opened up to all hardwares for the first time this year, which means other teams could make faster, more precise and more reliable robots than what we could possibly do with Lego. I'm designing this robot to be faster, more precise and more reliable than our previous robots with the power of open hardware.
 
 ## PCB
 

@@ -34,7 +34,7 @@ The World Robot Olympiad (WRO) is a global robotics competition. For the Robomis
 - **Camera:** I'm using an ESP32-CAM to detect the color pattern of the mosaic.
 - **Actuators:** I'm using JGB37-3530 motors for the wheels and N20 motors for the toolhead and for the mill. I'm using TB6612FNG drivers to control them.
 - **Power:** I'm using a 3S 2200mAh LiPo battery for powering the robot. I'm also using a voltage regulator for powering the ESP32.
-- **Structure:** I'm using 3D printed structural parts that have attachments for the components. I will be printing them out of PETG. I'm also using standard hardware such as bearings, timing belts and pulleys and castor wheels.
+- **Structure:** I'm using 3D printed structural parts that have attachments for the components. I will be printing them out of PETG. I'm also using standard hardware such as bearings, carbon fiber rods and castor wheels.
 - **Software:** I'm using odometry and a Pure Pursuit algorithm for control.
 
 ## Why I made this

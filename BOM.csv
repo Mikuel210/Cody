@@ -1,10 +1,10 @@
 Item,Amount,Amount to buy,Unit price,Total price,Link,Config
 PETG,1,0,"0,00 €","0,00 €",-,-
-PCB,1,1,"16,00 €","16,00 €",https://jlcpcb.com,-
+PCB,1,1,"19,36 €","19,36 €",https://jlcpcb.com,-
 Battery,2,2,"17,50 €","34,99 €",https://www.amazon.es/Zeee-Bater%C3%ADa-Veh%C3%ADculos-Cuadric%C3%B3ptero-Helic%C3%B3ptero/dp/B0BYNSH6Q7,-
-X Axis rods,2,8,"2,17 €","17,39 €",https://es.aliexpress.com/item/1005006793821681.html,12x100mm 1pcs
-Z Axis rods,2,2,"3,29 €","6,58 €",https://es.aliexpress.com/item/4001063505625.html,8mm 200mm
-Wheel motors,2,2,"17,76 €","35,52 €",https://es.aliexpress.com/item/1005008730235398.html,533rpm 12V Single motor
+X Axis rods,2,8,"2,17 €","17,39 €",https://es.aliexpress.com/item/4001063505625.html,8mm 200mm
+Z Axis rods,2,2,"3,29 €","6,58 €",https://es.aliexpress.com/item/1005006793821681.html,12x100mm 1pcs
+Wheel motors,2,2,"18,62 €","37,24 €",https://es.aliexpress.com/item/1005008730235398.html,533rpm 12V Motor x Stand
 N20 motors,4,4,"10,47 €","41,88 €",https://es.aliexpress.com/item/1005009284080839.html,"136x2, 272x2 without fixed seat"
 Front wheels,2,2,"3,44 €","6,87 €",https://es.aliexpress.com/item/1005010058308140.html,49295 1pcs
 Back wheels,2,2,"1,69 €","3,38 €",https://es.aliexpress.com/item/1005005334424631.html,7.5mm 1Pcs MJ310
@@ -27,4 +27,4 @@ ESP32-CAM,1,1,"13,29 €","13,29 €",https://www.amazon.es/diymore-desarrollo-E
 Velcro for battery and converter,1,1,"1,75 €","1,75 €",https://es.aliexpress.com/item/1005008938790125.html,Black 1M 30mm
 Cable for sensors and motors,1,1,"2,27 €","2,27 €",https://es.aliexpress.com/item/1005006566120439.html,5m 22 AWG
 Cable for battery,1,0,"0,00 €","0,00 €",-,-
-TOTAL,,,,"226,06 € ($260.19)",,
+TOTAL,,,,"231,14 € ($267,79)",,

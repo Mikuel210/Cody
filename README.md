@@ -68,7 +68,7 @@ https://cad.onshape.com/documents/a1e1109ed4daddff079aebb8/w/75daa850bdae83d3a80
 ![Cart screenshot](Cart/AliExpress1.png)
 ![Cart screenshot](Cart/AliExpress2.png)
 
-> Note: I will be buying two carbon fiber rods but AliExpress didn't feel like allowing me to add more than one to my cart at the moment
+> Note: I will be buying two of the carbon fiber rods above but AliExpress didn't feel like allowing me to add more than one to my cart at the moment
 
 ![Cart screenshot](Cart/AliExpress3.png)
 ![Cart screenshot](Cart/Shipping1.png)

@@ -8,10 +8,20 @@
 #define G 9.807
 #define DEG2RAD 0.01745329251f
 
+// Pins
 #define L_A 26
 #define L_B 27
 #define R_A 32
 #define R_B 33
+
+#define A1_A 34 // X axis
+#define A1_B 35
+#define A2_A 36 // Z axis
+#define A2_B 39
+#define A3_A 12 // Wheels
+#define A3_B 13
+#define A4_A 14 // Mill
+#define A4_B 15
 
 class SensorDataProvider : public IDataProvider {
   public:
@@ -35,10 +45,18 @@ class SensorDataProvider : public IDataProvider {
 
       rightEncoder.attachHalfQuad(R_A, R_B);
       rightEncoder.setCount(0);
-    }
 
-    void calibrate() override {
-      // TODO: Update using FastIMU example https://github.com/LiquidCGS/FastIMU/blob/main/examples/Calibrated_sensor_output/Calibrated_sensor_output.ino
+      xEncoder.attachHalfQuad(A1_A, A1_B);
+      xEncoder.setCount(0);
+
+      zEncoder.attachHalfQuad(A2_A, A2_B);
+      zEncoder.setCount(0);
+
+      wheelsEncoder.attachHalfQuad(A3_A, A3_B);
+      wheelsEncoder.setCount(0);
+
+      millEncoder.attachHalfQuad(A4_A, A4_B);
+      millEncoder.setCount(0);
     }
 
     SensorData getData() override {
@@ -53,7 +71,11 @@ class SensorDataProvider : public IDataProvider {
 
       // Get wheel pulses
       data.leftPulses = leftEncoder.getCount();
-      data.rightPulses = leftEncoder.getCount();
+      data.rightPulses = rightEncoder.getCount();
+      data.xPulses = xEncoder.getCount();
+      data.zPulses = zEncoder.getCount();
+      data.wheelsPulses = wheelsEncoder.getCount();
+      data.millPulses = millEncoder.getCount();
 
       return data;
     }
@@ -62,6 +84,10 @@ class SensorDataProvider : public IDataProvider {
     // Encoders
     ESP32Encoder leftEncoder;
     ESP32Encoder rightEncoder;
+    ESP32Encoder xEncoder;
+    ESP32Encoder zEncoder;
+    ESP32Encoder wheelsEncoder;
+    ESP32Encoder millEncoder;
 
     // Orientation
     MPU9250 IMU;

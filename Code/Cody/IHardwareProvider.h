@@ -6,6 +6,5 @@ class IHardwareProvider {
     virtual ~IHardwareProvider() {}
     virtual void initialize() {}
 
-    virtual void moveLeftMotor(int direction, int pwm) {}
-    virtual void moveRightMotor(int direction, int pwm) {}
+    virtual void move(NavigationData navigationData) {}
 };

@@ -1,28 +1,41 @@
-#include "SensorDataProvider.h"
+#define SIMULATION
 #include "Fusion.h"
 #include "Navigation.h"
-#include "RobotHardwareProvider.h"
 #include "Vector3.h"
 
-SensorDataProvider dataProvider;
-RobotHardwareProvider hardwareProvider;
-Fusion fusion;
-Navigation navigation;
+// Navigation classes
+
+#ifdef SIMULATION
+  #include "SimulationDataProvider.h"
+  #include "SimulationHardwareProvider.h"
+  SimulationDataProvider dataProvider;
+  SimulationHardwareProvider hardwareProvider;
+#else
+  #include "SensorDataProvider.h"
+  #include "RobotHardwareProvider.h"
+  SensorDataProvider dataProvider;
+  RobotHardwareProvider hardwareProvider;
+#endif
+
+// Pursuit pursuit = Pursuit(dataProvider, hardwareProvider);
+
+// Initialize providers
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(1000000);
   dataProvider.initialize();
   hardwareProvider.initialize();
 
-  navigation.setTarget(Vector3(100, 100, 0));
+  Navigation::setTarget(Vector3(10'000, 5'000, 0));
 }
 
 void loop() {
-  SensorData sensorData = dataProvider.getData();
-  FusionData fusionData = fusion.getData(sensorData);
-  NavigationData navigationData = navigation.getData(fusionData);
+  unsigned long msStart = millis();
 
-  hardwareProvider.moveLeftMotor(navigationData.leftMotorPwm);
-  hardwareProvider.moveRightMotor(navigationData.rightMotorPwm);
+  SensorData sensorData = dataProvider.getData();
+  FusionData fusionData = Fusion::getData(sensorData);
+  NavigationData navigationData = Navigation::getData(fusionData);
+  hardwareProvider.move(navigationData);
+
+  delay(1000.0 / 60.0 - (millis() - msStart));
 }

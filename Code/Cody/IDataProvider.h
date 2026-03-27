@@ -4,8 +4,7 @@
 class IDataProvider {
   public:
     virtual ~IDataProvider() {}
-    virtual void initialize() {}
     
-    virtual void calibrate() {}
+    virtual void initialize() {}
     virtual SensorData getData() = 0;
 };

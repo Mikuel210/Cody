@@ -5,22 +5,22 @@
 
 class PID {
   public:
-    float Kp, Ki, Kd, setpoint, alpha;
+    double Kp, Ki, Kd, setpoint, alpha;
 
-    PID(float Kp_, float Ki_, float Kd_, float setpoint_ = 0, float alpha_ = 1) 
+    PID(double Kp_, double Ki_, double Kd_, double setpoint_ = 0, double alpha_ = 1) 
       : Kp(Kp_), Ki(Ki_), Kd(Kd_), setpoint(setpoint_), alpha(alpha_) {}
 
-    void setSetpoint(float input) {
+    void setSetpoint(double input) {
       setpoint = input;
     }
 
-    float getCorrection(float input) {
+    double getCorrection(double input) {
       unsigned long currentTime = micros();
       unsigned long elapsedTime = currentTime - previousTime;
       
-      float error = setpoint - input;
+      double error = setpoint - input;
       errorIntegral += error * elapsedTime / 1000000 * INTEGRAL_RATE;
-      float errorRate = (error - lastError) / elapsedTime * 100000;
+      double errorRate = (error - lastError) / elapsedTime * 100000;
 
       if (fabs(errorIntegral) > INTEGRAL_LIMIT)
         errorIntegral = (errorIntegral > 0 ? 1 : -1) * INTEGRAL_LIMIT;
@@ -28,7 +28,7 @@ class PID {
       if ((error * errorIntegral) < 0)
         errorIntegral = 0;
 
-      float output = Kp * error + Ki * errorIntegral + Kd * errorRate;
+      double output = Kp * error + Ki * errorIntegral + Kd * errorRate;
       output = previousOutput + alpha * (output - previousOutput);
       previousOutput = output;
 
@@ -39,5 +39,5 @@ class PID {
     }
 
   private:
-    float lastError, errorIntegral, previousTime, previousOutput;
+    double lastError, errorIntegral, previousTime, previousOutput;
 };

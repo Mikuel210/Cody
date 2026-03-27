@@ -11,11 +11,8 @@ class RobotHardwareProvider : public IHardwareProvider {
       pinMode(R_PWM, OUTPUT);
     }
 
-    virtual void moveLeftMotor(int direction, int pwm) {
-      analogWrite(L_PWM, pwm); // TODO: Set direction
-    }
-
-    virtual void moveRightMotor(int direction, int pwm) {
-      analogWrite(R_PWM, pwm);
+    void move(NavigationData navigationData) override {
+      analogWrite(L_PWM, navigationData.leftMotorPwm); // TODO: Set direction
+      analogWrite(R_PWM, navigationData.rightMotorPwm); // TODO: Set direction
     }
 };

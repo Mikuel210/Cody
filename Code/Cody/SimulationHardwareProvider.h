@@ -1,5 +1,6 @@
 #pragma once
 #include "IHardwareProvider.h"
+#include "Task.h"
 #include <ArduinoJson.h>
 
 class SimulationHardwareProvider : public IHardwareProvider {
@@ -15,5 +16,20 @@ class SimulationHardwareProvider : public IHardwareProvider {
 
       serializeJson(document, Serial);
       Serial.println();
+    }
+
+    void homeXAxisAsync() override {}
+    void moveXAxisAsync(double position) override {}
+
+    void homeYAxisAsync() override {}
+    void moveYAxisAsync(double position) override {}
+
+  private:
+    void moveXAxis(bool forwards, int pwm) {
+      JsonDocument document;
+
+      document["method"] = "MoveXAxis";
+      document["parameters"][0] = forwards;
+      document["parameters"][1] = pwm;
     }
 };

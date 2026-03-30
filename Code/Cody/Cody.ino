@@ -2,8 +2,7 @@
 #include "Fusion.h"
 #include "Navigation.h"
 #include "Vector3.h"
-
-// Navigation classes
+#include "Pursuit.h"
 
 #ifdef SIMULATION
   #include "SimulationDataProvider.h"
@@ -17,25 +16,32 @@
   RobotHardwareProvider hardwareProvider;
 #endif
 
-// Pursuit pursuit = Pursuit(dataProvider, hardwareProvider);
-
-// Initialize providers
+// Setup
 
 void setup() {
   Serial.begin(1000000);
   dataProvider.initialize();
   hardwareProvider.initialize();
+  Pursuit::initialize(dataProvider, hardwareProvider);
 
-  Navigation::setTarget(Vector3(10'000, 5'000, 0));
+  go();
 }
 
-void loop() {
-  unsigned long msStart = millis();
+void loop() { }
 
-  SensorData sensorData = dataProvider.getData();
-  FusionData fusionData = Fusion::getData(sensorData);
-  NavigationData navigationData = Navigation::getData(fusionData);
-  hardwareProvider.move(navigationData);
-
-  delay(1000.0 / 60.0 - (millis() - msStart));
+void go() {
+  
+  Pursuit::addPoint(Vector3(0, 5'000));
+  Pursuit::addPoint(Vector3(5'000, 5'000));
+  Pursuit::addPoint(Vector3(5'000, 10'000));
+  Pursuit::addPoint(Vector3(0, 10'000));
+  Pursuit::addPoint(Vector3(0, 15'000));
+  Pursuit::followPathAsync(1'000);
+  
+/*
+  Pursuit::addPoint(Vector3(0, 700));
+  Pursuit::addPoint(Vector3(2000, 700));
+  Pursuit::addPoint(Vector3(2000, 0));
+  Pursuit::addPoint(Vector3(0, 0));
+  Pursuit::followPathAsync(200);*/
 }

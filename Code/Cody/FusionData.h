@@ -4,4 +4,5 @@
 struct FusionData {
   float orientation;
   Vector3 position;
+  Vector3 toolheadPosition;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "NavigationData.h"
+#include "ToolheadData.h"
 
 class IHardwareProvider {
   public:
@@ -7,8 +8,5 @@ class IHardwareProvider {
     virtual void initialize() {}
 
     virtual void move(NavigationData navigationData) {}
-    virtual void homeXAxisAsync() {}
-    virtual void moveXAxisAsync(double position) {}
-    virtual void homeYAxisAsync() {}
-    virtual void moveYAxisAsync(double position) {}
+    virtual void moveToolhead(ToolheadData toolheadData) {}
 };

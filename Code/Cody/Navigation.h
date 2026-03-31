@@ -3,15 +3,15 @@
 #include <cmath>
 #include "Vector3.h"
 #include "NavigationData.h"
+#include "ToolheadData.h"
 #include "FusionData.h"
 #include "PID.h"
 
-#define KP 1
-#define KI 0.25
-#define KD 1
-
+// Navigation parameters
 #define STOP_DISTANCE 1
+#define TOOLHEAD_STOP_DISTANCE 1
 #define ERROR_DECELERATION 0.02
+#define STEERING_MAX_AUTHORITY 2.0
 #define SPEED 1
 
 class Navigation {
@@ -32,7 +32,7 @@ class Navigation {
 
       if (distance > STOP_DISTANCE)
       {
-        double steeringAuthority = std::clamp(dmap(distance, 100.0, 2.0, 1.0, 0.0), 0.0, 1.0);
+        double steeringAuthority = std::clamp(dmap(distance, 100.0, STEERING_MAX_AUTHORITY, 1.0, 0.0), 0.0, 1.0);
         double orientationCorrection = -orientationPid.getCorrection(error) * steeringAuthority;
 
         double distanceAuthority = std::clamp(1.0 - abs(orientationCorrection) * ERROR_DECELERATION, 0.0, 1.0);
@@ -43,16 +43,41 @@ class Navigation {
         rightPwm = std::clamp(distancePwm - orientationCorrection, -255.0, 255.0);
       }
 
-      navigationData.leftMotorForwards = (leftPwm >= 0.0);
-      navigationData.rightMotorForwards = (rightPwm >= 0.0);
-      navigationData.leftMotorPwm = abs(leftPwm);
-      navigationData.rightMotorPwm = abs(rightPwm);
+      // Construct navigation data
+      navigationData.leftMotor = MotorData(leftPwm >= 0.0, abs(leftPwm));
+      navigationData.rightMotor = MotorData(rightPwm >= 0.0, abs(rightPwm));
 
       return navigationData;
     }
 
+    static ToolheadData getToolheadData(FusionData fusionData) {
+      ToolheadData toolheadData;
+
+      // Get toolhead correction
+      xAxisPid.setSetpoint(toolheadTarget.x);
+      zAxisPid.setSetpoint(toolheadTarget.z);
+
+      double xAxisCorrection = xAxisPid.getCorrection(fusionData.toolheadPosition.x);
+      double zAxisCorrection = xAxisPid.getCorrection(fusionData.toolheadPosition.z);
+      double xAxisPwm = std::clamp(xAxisCorrection, -255.0, 255.0);
+      double zAxisPwm = std::clamp(zAxisCorrection, -255.0, 255.0);
+
+      Serial.print(xAxisCorrection); Serial.print(" | ");
+      Serial.print(zAxisCorrection); Serial.println();
+
+      // Construct toolhead data
+      toolheadData.xAxisMotor = MotorData(xAxisPwm >= 0.0, abs(xAxisPwm));
+      toolheadData.zAxisMotor = MotorData(zAxisPwm >= 0.0, abs(zAxisPwm));
+
+      return toolheadData;
+    }
+
     static void setTarget(Vector3 newTarget) {
       target = newTarget;
+    }
+
+    static void setToolheadTarget(Vector3 newTarget) {
+      toolheadTarget = newTarget;
     }
 
     static void setDecelerationDistance(double distance) {
@@ -66,10 +91,14 @@ class Navigation {
     }
 
   private:
+    static Vector3 target;
+    static Vector3 toolheadTarget;
+    static double decelerationDistance;
+
     static PID orientationPid;
     static PID distancePid;
-    static Vector3 target;
-    static double decelerationDistance;
+    static PID xAxisPid;
+    static PID zAxisPid;
 
     static double dmap(double x, double in_min, double in_max, double out_min, double out_max) {
       return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

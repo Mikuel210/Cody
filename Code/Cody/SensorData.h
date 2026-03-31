@@ -8,8 +8,8 @@ struct SensorData {
 
   int leftPulses;
   int rightPulses;
-  int xPulses;
-  int zPulses;
+  int xAxisPulses;
+  int zAxisPulses;
   int wheelsPulses;
   int millPulses;
 };

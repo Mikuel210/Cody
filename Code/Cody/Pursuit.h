@@ -6,9 +6,14 @@
 #include "NavigationData.h"
 #include "Fusion.h"
 #include "Navigation.h"
+#include "Line.h"
 #include "Task.h"
+#include "TaskArgs.h"
 #include <cmath>
 #include <vector>
+
+// Pursuit parameters
+#define HZ 60.0
 
 class Pursuit {
   public:
@@ -17,9 +22,15 @@ class Pursuit {
       hardwareProvider = &hardwareProvider_;
     }
 
+    static void addPoint(double x, double y) {
+      Vector3 point = Vector3(x, y);
+      points.push_back(point);
+    }
+
     static Task* goToAsync(Vector3 target) {
       Task* task = new Task("goTo", goToTask);
       GoToArgs* args = new GoToArgs();
+
       args->task = task;
       args->target = target;
 
@@ -27,15 +38,24 @@ class Pursuit {
       return task;
     }
 
-    static void addPoint(Vector3 point) {
-      points.push_back(point);
-    }
-
-    static Task* followPathAsync(float lookaheadDistance) {
+    static Task* followPathAsync(double lookaheadDistance) {
       Task* task = new Task("followPath", followPathTask);
       FollowPathArgs* args = new FollowPathArgs();
+
       args->task = task;
       args->lookaheadDistance = lookaheadDistance;
+
+      task->start(args);
+      return task;
+    }
+
+    static Task* moveToolheadAsync(double xPosition, double zPosition) {
+      Task* task = new Task("moveToolhead", moveToolheadTask);
+      MoveToolheadArgs* args = new MoveToolheadArgs();
+
+      args->task = task;
+      args->xPosition = xPosition;
+      args->zPosition = zPosition;
 
       task->start(args);
       return task;
@@ -47,8 +67,7 @@ class Pursuit {
     static std::vector<Vector3> points;
     static int lineIndex;
 
-    struct GoToArgs {
-      Task* task;
+    struct GoToArgs : TaskArgs {
       Vector3 target;
     };
 
@@ -70,15 +89,14 @@ class Pursuit {
         NavigationData navigationData = Navigation::getData(fusionData);
         hardwareProvider->move(navigationData);
 
-        vTaskDelay(1000.0 / 60.0 - (millis() - msStart));
+        vTaskDelay(1000.0 / HZ - (millis() - msStart));
       }
 
       args->task->stop();
       delete args;
     }
 
-    struct FollowPathArgs {
-      Task* task;
+    struct FollowPathArgs : TaskArgs {
       double lookaheadDistance;
     };
 
@@ -108,19 +126,12 @@ class Pursuit {
         NavigationData navigationData = Navigation::getData(fusionData);
         hardwareProvider->move(navigationData);
 
-        vTaskDelay(1000.0 / 60.0 - (millis() - msStart));
+        vTaskDelay(1000.0 / HZ - (millis() - msStart));
       }
 
       args->task->stop();
       delete args;
     }
-
-    struct Line {
-      Line(Vector3 start_, Vector3 end_) : start(start_), end(end_) {}
-
-      Vector3 start;
-      Vector3 end;
-    };
 
     static Vector3 findLookahead(Vector3 position, double lookaheadDistance) {
       std::vector<Line> lines;
@@ -167,5 +178,35 @@ class Pursuit {
       double t2 = std::clamp((-b - sqrt(d)) / (2 * a), 0.0, 1.0);
 
       return max(t1, t2);
+    }
+
+    struct MoveToolheadArgs : TaskArgs {
+      double xPosition;
+      double zPosition;
+    };
+
+    static void moveToolheadTask(void* task) {
+      MoveToolheadArgs* args = (MoveToolheadArgs*)task;
+      
+      Vector3 target = Vector3(args->xPosition, 0, args->zPosition);
+      Navigation::setToolheadTarget(target);
+
+      while (true) {
+        unsigned long msStart = millis();
+
+        SensorData sensorData = dataProvider->getData();
+        FusionData fusionData = Fusion::getData(sensorData);
+
+        ToolheadData toolheadData = Navigation::getToolheadData(fusionData);
+        hardwareProvider->moveToolhead(toolheadData);
+
+        if (abs(fusionData.toolheadPosition.x - target.x) <= TOOLHEAD_STOP_DISTANCE &&
+            abs(fusionData.toolheadPosition.z - target.z) <= TOOLHEAD_STOP_DISTANCE) break;
+        
+        vTaskDelay(1000.0 / HZ - (millis() - msStart));
+      }
+
+      args->task->stop();
+      delete args;
     }
 };

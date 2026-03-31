@@ -1,10 +1,15 @@
 #pragma once
 #include "Vector3.h"
 
-struct NavigationData {
-  bool leftMotorForwards;
-  int leftMotorPwm;
+struct MotorData {
+  MotorData(bool forwards_, int pwm_) : forwards(forwards_), pwm(pwm_) {}
+  MotorData() = default;
 
-  bool rightMotorForwards;
-  int rightMotorPwm;
+  bool forwards;
+  int pwm;
+};
+
+struct NavigationData {
+  MotorData leftMotor;
+  MotorData rightMotor;
 };

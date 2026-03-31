@@ -12,7 +12,7 @@ class RobotHardwareProvider : public IHardwareProvider {
     }
 
     void move(NavigationData navigationData) override {
-      analogWrite(L_PWM, navigationData.leftMotorPwm); // TODO: Set direction
-      analogWrite(R_PWM, navigationData.rightMotorPwm); // TODO: Set direction
+      analogWrite(L_PWM, navigationData.leftMotor.pwm); // TODO: Set direction
+      analogWrite(R_PWM, navigationData.rightMotor.pwm); // TODO: Set direction
     }
 };

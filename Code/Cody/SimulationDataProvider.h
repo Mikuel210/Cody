@@ -23,8 +23,8 @@ class SimulationDataProvider : public IDataProvider {
 
       data.leftPulses = document["leftPulses"];
       data.rightPulses = document["rightPulses"];
-      data.xPulses = document["xPulses"];
-      data.zPulses = document["zPulses"];
+      data.xAxisPulses = document["xAxisPulses"];
+      data.zAxisPulses = document["zAxisPulses"];
       data.wheelsPulses = document["wheelsPulses"];
       data.millPulses = document["millPulses"];
 

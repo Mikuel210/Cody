@@ -4,7 +4,10 @@
 #include "FusionData.h"
 #include <SensorFusion.h>
 
+// Fusion parameters
 #define TRAVEL_PER_REVOLUTION_MM 276.460153516
+#define X_AXIS_MM_PER_REVOLUTION 43.9822971503
+#define Z_AXIS_MM_PER_REVOLUTION 56.5486677646
 #define TICKS_PER_REVOLUTION 16.0
 #define DISTANCE_BETWEEN_WHEELS_MM 228.0
 
@@ -35,13 +38,27 @@ class Fusion {
       double deltaX = deltaDistanceMm * sin(averageOrientation * DEG_TO_RAD);
       double deltaY = deltaDistanceMm * cos(averageOrientation * DEG_TO_RAD);
 
+      // Get toolhead position
+      double toolheadDeltaX = (sensorData.xAxisPulses - previousXAxisPulses) * X_AXIS_MM_PER_REVOLUTION / TICKS_PER_REVOLUTION;
+      double toolheadDeltaZ = (sensorData.zAxisPulses - previousZAxisPulses) * Z_AXIS_MM_PER_REVOLUTION / TICKS_PER_REVOLUTION;
+
+
+      // Construct fusion data
       fusionData.orientation = orientation; // TODO: Fuse with IMU orientation
       fusionData.position = Vector3(previousPosition.x + deltaX, previousPosition.y + deltaY, 0);
+      fusionData.toolheadPosition = Vector3(previousToolheadPosition.x + toolheadDeltaX, 0, previousToolheadPosition.z + toolheadDeltaZ);
+
+      Serial.print(fusionData.toolheadPosition.x); Serial.print(" | ");
+      Serial.print(fusionData.toolheadPosition.z); Serial.print(" | ");
+
+      previousPosition = fusionData.position;
+      previousToolheadPosition = fusionData.toolheadPosition;
+      previousOrientation = orientation;
 
       previousLeftPulses = sensorData.leftPulses;
       previousRightPulses = sensorData.rightPulses;
-      previousPosition = fusionData.position;
-      previousOrientation = orientation;
+      previousXAxisPulses = sensorData.xAxisPulses;
+      previousZAxisPulses = sensorData.zAxisPulses;
 
       return fusionData;
     }
@@ -49,9 +66,12 @@ class Fusion {
   private:
     static float deltat;
     static SF fusion;
+    static Vector3 previousPosition;
+    static Vector3 previousToolheadPosition;
+    static double previousOrientation;
     
     static int previousLeftPulses;
     static int previousRightPulses;
-    static double previousOrientation;
-    static Vector3 previousPosition;
+    static int previousXAxisPulses;
+    static int previousZAxisPulses;
 };

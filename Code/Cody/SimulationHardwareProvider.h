@@ -9,27 +9,25 @@ class SimulationHardwareProvider : public IHardwareProvider {
       JsonDocument document;
 
       document["method"] = "Move";
-      document["parameters"][0] = navigationData.leftMotorForwards;
-      document["parameters"][1] = navigationData.leftMotorPwm;
-      document["parameters"][2] = navigationData.rightMotorForwards;
-      document["parameters"][3] = navigationData.rightMotorPwm;
+      document["parameters"][0] = navigationData.leftMotor.forwards;
+      document["parameters"][1] = navigationData.leftMotor.pwm;
+      document["parameters"][2] = navigationData.rightMotor.forwards;
+      document["parameters"][3] = navigationData.rightMotor.pwm;
 
       serializeJson(document, Serial);
       Serial.println();
     }
 
-    void homeXAxisAsync() override {}
-    void moveXAxisAsync(double position) override {}
-
-    void homeYAxisAsync() override {}
-    void moveYAxisAsync(double position) override {}
-
-  private:
-    void moveXAxis(bool forwards, int pwm) {
+    virtual void moveToolhead(ToolheadData toolheadData) {
       JsonDocument document;
 
-      document["method"] = "MoveXAxis";
-      document["parameters"][0] = forwards;
-      document["parameters"][1] = pwm;
+      document["method"] = "MoveToolhead";
+      document["parameters"][0] = toolheadData.xAxisMotor.forwards;
+      document["parameters"][1] = toolheadData.xAxisMotor.pwm;
+      document["parameters"][2] = toolheadData.zAxisMotor.forwards;
+      document["parameters"][3] = toolheadData.zAxisMotor.pwm;
+
+      serializeJson(document, Serial);
+      Serial.println();
     }
 };

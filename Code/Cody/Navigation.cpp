@@ -1,9 +1,8 @@
 #pragma once
 #include "Navigation.h"
 
-Vector3 Navigation::target;
-Vector3 Navigation::toolheadTarget;
-double Navigation::decelerationDistance = 100.0;
+NavigationTarget Navigation::drive = NavigationTarget();
+NavigationTarget Navigation::toolhead = NavigationTarget();
 
 PID Navigation::orientationPid = PID(1, 0, 0);
 PID Navigation::distancePid = PID(1, 0, 0);

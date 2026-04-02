@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include "Vector3.h"
+#include "NavigationTarget.h"
 #include "NavigationData.h"
 #include "ToolheadData.h"
 #include "FusionData.h"
@@ -16,19 +17,22 @@
 
 class Navigation {
   public:
+    static NavigationTarget drive;
+    static NavigationTarget toolhead;
+
     static NavigationData getData(FusionData fusionData) {
       NavigationData navigationData;
 
       // Get orientation correction
-      float targetOrientation = atan2(target.x - fusionData.position.x, target.y - fusionData.position.y) * (180.0 / M_PI);
+      float targetOrientation = atan2(drive.target.x - fusionData.position.x, drive.target.y - fusionData.position.y) * (180.0 / M_PI);
       float error = targetOrientation - fusionData.orientation;
 
       while (error > 180.0) { error -= 360.0; targetOrientation -= 360.0; }
       while (error < -180.0) { error += 360.0; targetOrientation += 360.0; }
 
-      double distance = getDistance(fusionData.position, target);
-      double leftPwm = 0.0;
-      double rightPwm = 0.0;
+      // Get distance correction
+      double distance = getDistance(fusionData.position, drive.target);
+      double leftPwm, rightPwm;
 
       if (distance > STOP_DISTANCE)
       {
@@ -36,7 +40,7 @@ class Navigation {
         double orientationCorrection = -orientationPid.getCorrection(error) * steeringAuthority;
 
         double distanceAuthority = std::clamp(1.0 - abs(orientationCorrection) * ERROR_DECELERATION, 0.0, 1.0);
-        double distanceCorrection = -distancePid.getCorrection(distance) * 255.0 * SPEED / decelerationDistance;
+        double distanceCorrection = -distancePid.getCorrection(distance) * 255.0 * SPEED / drive.decelerationDistance;
         double distancePwm = std::clamp(distanceCorrection, -255.0, 255.0) * distanceAuthority;
 
         leftPwm = std::clamp(distancePwm + orientationCorrection, -255.0, 255.0);
@@ -54,34 +58,19 @@ class Navigation {
       ToolheadData toolheadData;
 
       // Get toolhead correction
-      xAxisPid.setSetpoint(toolheadTarget.x);
-      zAxisPid.setSetpoint(toolheadTarget.z);
+      xAxisPid.setSetpoint(toolhead.target.x);
+      zAxisPid.setSetpoint(toolhead.target.z);
 
-      double xAxisCorrection = xAxisPid.getCorrection(fusionData.toolheadPosition.x);
-      double zAxisCorrection = xAxisPid.getCorrection(fusionData.toolheadPosition.z);
+      double xAxisCorrection = xAxisPid.getCorrection(fusionData.toolheadPosition.x) * 255.0 / toolhead.decelerationDistance;
+      double zAxisCorrection = xAxisPid.getCorrection(fusionData.toolheadPosition.z) * 255.0 / toolhead.decelerationDistance;
       double xAxisPwm = std::clamp(xAxisCorrection, -255.0, 255.0);
       double zAxisPwm = std::clamp(zAxisCorrection, -255.0, 255.0);
-
-      Serial.print(xAxisCorrection); Serial.print(" | ");
-      Serial.print(zAxisCorrection); Serial.println();
 
       // Construct toolhead data
       toolheadData.xAxisMotor = MotorData(xAxisPwm >= 0.0, abs(xAxisPwm));
       toolheadData.zAxisMotor = MotorData(zAxisPwm >= 0.0, abs(zAxisPwm));
 
       return toolheadData;
-    }
-
-    static void setTarget(Vector3 newTarget) {
-      target = newTarget;
-    }
-
-    static void setToolheadTarget(Vector3 newTarget) {
-      toolheadTarget = newTarget;
-    }
-
-    static void setDecelerationDistance(double distance) {
-      decelerationDistance = distance;
     }
 
     static double getDistance(Vector3 a, Vector3 b) {
@@ -91,10 +80,6 @@ class Navigation {
     }
 
   private:
-    static Vector3 target;
-    static Vector3 toolheadTarget;
-    static double decelerationDistance;
-
     static PID orientationPid;
     static PID distancePid;
     static PID xAxisPid;

@@ -3,7 +3,7 @@
 #define BAUD_RATE 1000000
 
 // Include dependencies
-#include "Pursuit.h"
+#include "Cody.h"
 #include "Program.h"
 
 #ifdef SIMULATION
@@ -23,7 +23,8 @@ void setup() {
   Serial.begin(BAUD_RATE);
   dataProvider.initialize();
   hardwareProvider.initialize();
-  Pursuit::initialize(dataProvider, hardwareProvider);
+  
+  Cody::initialize(dataProvider, hardwareProvider);
   Program::go();
 }
 

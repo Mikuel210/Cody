@@ -51,7 +51,7 @@ My team has been using Lego Spike since we started competing, but it's starting 
 
 ## Wiring diagram
 
-![Wiring diagram](Images/WiringDiagram.png)
+![Wiring diagram](01%20Projects/Cody/Images/WiringDiagram.png)
 
 ## Onshape Document
 

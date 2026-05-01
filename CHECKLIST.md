@@ -1,0 +1,59 @@
+- [x] Finish BOM
+- [x] Finish firmware
+- [-] New renders
+- [x] Update GitHub
+- [x] Submit to Blueprint
+- [x] Buy parts
+- [x] Update CAD model
+	- [x] New motors (N20 / N30)
+	- [x] Limit switches
+	- [x] Camera and color sensor
+	- [x] Switch to CF rods
+- [x] Check amperages and weight
+- [x] Update PCB (01-04-2026)
+	- [x] Add button
+	- [x] Limit switch connectors
+	- [x] Camera connector requires power pins
+	- [x] Connector placement collides with X axis
+	- [x] Make sure amperages work out
+	- [x] Check I2C addresses
+	- [x] Better routing
+	- [x] Proper silkscreen for connectors
+- [x] Update Blueprint journal and repo
+- [x] Calculate cable length
+- [x] Buy remaining parts (01-04-2026)
+- [x] Update measurements (01-04-2026)
+	- [x] New motor mounts
+- [/] Prototyping
+	- [/] Motor mounts
+		- [x] N20
+		- [/] Wheels
+	- [x] CF rod attachments and sliding
+		- [x] .15 -> A tiny bit loose for sliding
+		- [x] .14 -> Still a bit loose
+		- [x] .13 -> Sweet spot
+		- [x] .12 -> Sweet spot
+	- [x] X Axis attachments
+	- [x] Bearings
+	- [x] Limit switches
+	- [x] N20 attachments
+	- [x] ESP32-CAM
+	- [x] Color sensor
+	- [x] Castor wheels
+- [/] Get reimbursed
+- [/] Building and assembly (01-05-2026)
+	- [/] Print tube (19-04-2026)
+		- [x] Print new gears
+		- [ ] Glue wheels
+	- [ ] Print chassis
+		- [ ] Prepare for printing
+		- [ ] Consider buying new wheels
+- [/] Coding and testing (19-06-2026)
+	- [x] Pure Pursuit
+	- [/] Move toolhead
+	- [/] Toolhead paths
+	- [/] Moving wheels
+	- [ ] Moving mill
+	- [ ] Camera
+	- [ ] Color sensor
+	- [ ] BMS

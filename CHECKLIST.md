@@ -45,15 +45,32 @@
 	- [/] Print tube (19-04-2026)
 		- [x] Print new gears
 		- [ ] Glue wheels
-	- [ ] Print chassis
-		- [ ] Prepare for printing
-		- [ ] Consider buying new wheels
-- [/] Coding and testing (19-06-2026)
+	- [x] Print chassis
+		- [x] Prepare for printing
+		- [x] Consider buying new wheels
+	- [/] Print gears
+	- [/] Print bolts
+	- [/] Print wheel adapters
+	- [ ] Print new mill
+		- [ ] Test plastic thingy
+- [/] Coding and testing (06-06-2026)
 	- [x] Pure Pursuit
-	- [/] Move toolhead
-	- [/] Toolhead paths
-	- [/] Moving wheels
-	- [ ] Moving mill
-	- [ ] Camera
-	- [ ] Color sensor
-	- [ ] BMS
+	- [x] Move toolhead
+	- [x] Toolhead paths
+	- [x] Moving wheels
+	- [x] Moving mill
+	- [>] Camera
+	- [x] Color sensor
+	- [x] Color fusion
+	- [x] BMS
+		- [x] Read voltage
+		- [x] Smooth in fusion
+		- [x] Alarm if too low
+	- [x] State indication
+	- [x] Limit switches
+	- [x] Button
+	- [/] Homing
+	- [ ] Camera integration
+	- [ ] Align with wall
+	- [ ] Stop in line
+	- [/] Testing in simulation

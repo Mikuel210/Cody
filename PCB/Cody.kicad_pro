@@ -780,7 +780,7 @@
       {
         "filename": "Cody.kicad_sch",
         "name": "Cody",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "02e45b8e-3ecc-467a-bd07-7f0d0ca41085"
       }
     ],
     "used_designators": "",
@@ -789,7 +789,7 @@
   "sheets": [
     [
       "02e45b8e-3ecc-467a-bd07-7f0d0ca41085",
-      "Root"
+      "Cody"
     ]
   ],
   "text_variables": {},

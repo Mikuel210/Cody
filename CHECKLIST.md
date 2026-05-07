@@ -24,10 +24,10 @@
 - [x] Buy remaining parts (01-04-2026)
 - [x] Update measurements (01-04-2026)
 	- [x] New motor mounts
-- [/] Prototyping
-	- [/] Motor mounts
+- [x] Prototyping
+	- [x] Motor mounts
 		- [x] N20
-		- [/] Wheels
+		- [x] Wheels
 	- [x] CF rod attachments and sliding
 		- [x] .15 -> A tiny bit loose for sliding
 		- [x] .14 -> Still a bit loose
@@ -44,15 +44,15 @@
 - [/] Building and assembly (01-05-2026)
 	- [/] Print tube (19-04-2026)
 		- [x] Print new gears
-		- [ ] Glue wheels
+		- [/] Glue wheels
 	- [x] Print chassis
 		- [x] Prepare for printing
 		- [x] Consider buying new wheels
-	- [/] Print gears
-	- [/] Print bolts
-	- [/] Print wheel adapters
-	- [ ] Print new mill
-		- [ ] Test plastic thingy
+	- [x] Print gears
+	- [x] Print bolts
+	- [x] Print wheel adapters
+	- [/] Print new mill
+		- [x] Test plastic thingy
 - [/] Coding and testing (06-06-2026)
 	- [x] Pure Pursuit
 	- [x] Move toolhead
@@ -69,8 +69,20 @@
 	- [x] State indication
 	- [x] Limit switches
 	- [x] Button
-	- [/] Homing
+	- [x] Homing
+	- [ ] Home mill
 	- [ ] Camera integration
 	- [ ] Align with wall
 	- [ ] Stop in line
 	- [/] Testing in simulation
+	- [ ] Block picking algorithm
+- [/] Cut cables
+	- [x] X (20cm)
+	- [x] Z (20cm)
+	- [x] Wheels (20cm)
+	- [ ] Camera
+	- [ ] Color
+	- [x] Mill (20cm??)
+	- [x] Balance (10ish??)
+	- [x] Battery and voltage converter (cooked?)
+- [ ] Solder/crimp connectors

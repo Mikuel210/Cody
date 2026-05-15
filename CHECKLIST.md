@@ -42,18 +42,18 @@
 	- [x] Castor wheels
 - [/] Get reimbursed
 - [/] Building and assembly (01-05-2026)
-	- [/] Print tube (19-04-2026)
+	- [x] Print tube (19-04-2026)
 		- [x] Print new gears
-		- [/] Glue wheels
+		- [x] Glue wheels
 	- [x] Print chassis
 		- [x] Prepare for printing
 		- [x] Consider buying new wheels
 	- [x] Print gears
 	- [x] Print bolts
 	- [x] Print wheel adapters
-	- [/] Print new mill
+	- [ ] Print new mill
 		- [x] Test plastic thingy
-- [/] Coding and testing (06-06-2026)
+- [/] Coding (06-06-2026)
 	- [x] Pure Pursuit
 	- [x] Move toolhead
 	- [x] Toolhead paths
@@ -74,15 +74,25 @@
 	- [ ] Camera integration
 	- [ ] Align with wall
 	- [ ] Stop in line
-	- [/] Testing in simulation
 	- [ ] Block picking algorithm
+- [/] Testing in simulation
+	- [x] Button
+	- [x] BMS
+	- [x] Movement
+	- [x] Toolhead
+	- [x] Homing
+	- [ ] Wheels
+	- [ ] Mill
+	- [ ] Color sensor
+	- [ ] Camera
 - [/] Cut cables
 	- [x] X (20cm)
 	- [x] Z (20cm)
 	- [x] Wheels (20cm)
 	- [ ] Camera
 	- [ ] Color
-	- [x] Mill (20cm??)
-	- [x] Balance (10ish??)
-	- [x] Battery and voltage converter (cooked?)
+	- [x] Mill (20cm?)
+	- [x] Balance (10ish?)
+	- [x] Battery and voltage converter
 - [ ] Solder/crimp connectors
+- [ ] Integrated testing (04-07-2026)

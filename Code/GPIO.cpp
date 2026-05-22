@@ -1,4 +1,4 @@
 #pragma once
 #include "GPIO.h"
 
-PCF8575 GPIO::PCF = PCF8575(0x20);
+PCF8575 GPIO::PCF = PCF8575();

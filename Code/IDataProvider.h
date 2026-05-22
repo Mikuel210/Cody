@@ -1,5 +1,6 @@
 #pragma once
 #include "SensorData.h"
+#include <Arduino.h>
 
 class IDataProvider {
   public:

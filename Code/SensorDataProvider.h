@@ -50,28 +50,32 @@ class SensorDataProvider : public IDataProvider {
       if (error != 0) {
         Serial.print("Error initializing IMU: ");
         Serial.println(error);
-        while (true) {}
       }
 
       // Initialize ADS1115
       Wire.begin();
-      while (!ADS.init()) delay(1);
+
+      while (!ADS.init()) {
+        Serial.println("Initializing ADS");
+        delay(1);
+      }
 
       ADS.setVoltageRange_mV(ADS1115_RANGE_6144);
-      ADS.setCompareChannels(ADS1115_COMP_0_GND);
       ADS.setMeasureMode(ADS1115_CONTINUOUS);
 
       // Initialize TCS34725
-      while (!TCS.attach(Wire)) delay(1);
+      /*
+      while (!TCS.attach(Wire)) {
+        Serial.println("Initializing TCS");
+        delay(1);
+      }
 
       TCS.integrationTime(1000.0 / HZ);
-      TCS.gain(TCS34725::Gain::X01);
+      TCS.gain(TCS34725::Gain::X01);*/
 
       // Initialize PCF8575
       GPIO::initialize();
-      GPIO::pinMode(LIMIT_1, INPUT);
-      GPIO::pinMode(LIMIT_2, INPUT);
-
+      
       // Initialize encoders
       leftEncoder.attachHalfQuad(L_A, L_B);
       leftEncoder.setCount(0);
@@ -91,29 +95,29 @@ class SensorDataProvider : public IDataProvider {
       SensorData data;
 
       // Get IMU data
-      IMU.update();
+      /*IMU.update();
       data.acceleration = readAccelerometer();
       data.gyroscope = readGyroscope();
-      data.magnetometer = readMagnetometer();
+      data.magnetometer = readMagnetometer();*/
 
       // Get wheel pulses
       data.leftPulses = leftEncoder.getCount();
-      data.rightPulses = rightEncoder.getCount();
+      data.rightPulses = -rightEncoder.getCount();
       data.xAxisPulses = xEncoder.getCount();
       data.zAxisPulses = zEncoder.getCount();
       data.wheelsPulses = wheelsEncoder.getCount();
       data.millPulses = millEncoder.getCount();
 
       // Get color sensor
-      if (TCS.available()) {
+      /*if (TCS.available()) {
           TCS34725::Color color = TCS.color();
           data.colorData = ColorData(color.r, color.g, color.b);
-      }
+      }*/
 
       // Get BMS
       data.bms1 = readVoltage(ADS1115_COMP_0_GND);
       data.bms2 = readVoltage(ADS1115_COMP_1_GND);
-      data.bms3 = readVoltage(ADS1115_COMP_2_GND);
+      data.bms3 = readVoltage(ADS1115_COMP_3_GND);
 
       // Get switches
       data.xLimit = GPIO::digitalRead(LIMIT_2) == 1;

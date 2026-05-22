@@ -86,13 +86,15 @@
 	- [ ] Color sensor
 	- [ ] Camera
 - [/] Cut cables
-	- [x] X (20cm)
-	- [x] Z (20cm)
-	- [x] Wheels (20cm)
+	- [x] X
+	- [x] Z
+	- [x] Wheels
 	- [ ] Camera
 	- [ ] Color
-	- [x] Mill (20cm?)
-	- [x] Balance (10ish?)
+	- [x] Mill
+	- [ ] Balance
 	- [x] Battery and voltage converter
-- [ ] Solder/crimp connectors
-- [ ] Integrated testing (04-07-2026)
+- [/] Solder/crimp connectors
+- [/] Integrated testing (04-07-2026)
+	- [/] Get BMS to work
+	- [ ] Get Cody.h to work

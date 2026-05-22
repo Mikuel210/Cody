@@ -4,6 +4,7 @@
 #include "Fusion.h"
 #include "Task.h"
 #include "TaskArgs.h"
+#include "Cody.h"
 
 // BMS parameters
 #define BMS_HZ 1
@@ -12,10 +13,7 @@
 
 class BMS {
   public:
-    static void initialize(IDataProvider& dataProvider_, IHardwareProvider& hardwareProvider_) {
-      dataProvider = &dataProvider_;
-      hardwareProvider = &hardwareProvider_;
-
+    static void initialize() {
       Task* task = new Task("bms", bmsTask);
       TaskArgs* args = new TaskArgs();
       args->task = task;
@@ -23,20 +21,17 @@ class BMS {
     }
 
   private:
-    static IDataProvider* dataProvider;
-    static IHardwareProvider* hardwareProvider;
-
     static void bmsTask(void* task) {
       TaskArgs* args = (TaskArgs*)task;
 
       while (true) {
         unsigned long msStart = millis();
 
-        SensorData sensorData = dataProvider->getData();
+        SensorData sensorData = Cody::dataProvider->getData();
         FusionData fusionData = Fusion::getData(sensorData);
 
         if (fusionData.voltage <= VOLTAGE_THRESHOLD)
-          hardwareProvider->toneBuzzer(BMS_FREQUENCY, 1000.0 / BMS_HZ / 2);
+          Cody::hardwareProvider->toneBuzzer(BMS_FREQUENCY, 1000.0 / BMS_HZ / 2);
 
         vTaskDelay(max(1000.0 / BMS_HZ - (millis() - msStart), 0.0));
       }

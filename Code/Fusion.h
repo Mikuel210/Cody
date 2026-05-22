@@ -11,7 +11,7 @@
 #define X_AXIS_MM_PER_REVOLUTION 43.9822971503
 #define Z_AXIS_MM_PER_REVOLUTION 56.5486677646
 #define WHEELS_MM_PER_REVOLUTION 38.2790981791
-#define TICKS_PER_REVOLUTION 16.0
+#define TICKS_PER_REVOLUTION 512.0
 #define DISTANCE_BETWEEN_WHEELS_MM 228.0
 
 class Fusion {
@@ -88,11 +88,15 @@ class Fusion {
       std::vector<int> differences;
 
       for (ColorData compared : colorValues) {
-        int differenceR = min(colorData.r - compared.r, colorData.r - (compared.r + 255));
-        int differenceG = min(colorData.g - compared.g, colorData.g - (compared.g + 255));
-        int differenceB = min(colorData.b - compared.b, colorData.b - (compared.b + 255));
+        int differenceR = std::abs(colorData.r - compared.r);
+        int differenceG = std::abs(colorData.g - compared.g);
+        int differenceB = std::abs(colorData.b - compared.b);
         differences.push_back(differenceR + differenceG + differenceB);
+
+        Serial.print(differenceR + differenceG + differenceB); Serial.print(",");
       }
+
+      Serial.println();
 
       // Get min difference
       int minIndex = 0;

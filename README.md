@@ -1,32 +1,32 @@
-![Cody](Images/Logo.png)
+![Cody](Projects/Cody/Images/Logo.png)
 
 **Cody is a robot for the next season of WRO Robomission Senior.** 
 
 The World Robot Olympiad (WRO) is a global robotics competition. For the Robomission challenge, you have to design, build and program a robot to complete a set of challenges on a board in under 2 minutes. Cody is our attempt at making our best robot so far, and I'm designing it to be faster, more precise and more reliable than all of our previous.
 
-![Render](Images/Render.png)
+![Render](Render.png)
 
 ## This year's challenges
 
 1. There is a mosaic with a randomized pattern of colors at the center of the board. You have to place a block of the right color in each square of the grid to score.
 
-![Mosaic](Images/Mosaic1.png)
+![Mosaic](Mosaic1.png)
 
-![Blocks](Images/Mosaic2.png)
+![Blocks](Mosaic2.png)
 
 2. There are blocks of "cement" of different colors on the board. You have to carry the blocks of each color to their corresponding area.
 
-![Cement](Images/Cement.png)
+![Cement](Cement.png)
 
 ## Our solution
 
 1. A toolhead grabs and drops blocks for the mosaic by using wheels
 
-![Toolhead](Images/Toolhead.png)
+![Toolhead](Toolhead.png)
 
 2. A mill picks up, carries and releases two colors of cement at a time
 
-![Mill](Images/Mill.png)
+![Mill](Mill.png)
 
 ## How it works
 
@@ -43,15 +43,15 @@ My team has been using Lego Spike since we started competing, but it's starting 
 
 ## PCB
 
-![PCB 3D model](Images/PCB3D.png)
+![PCB 3D model](PCB3D.png)
 
-![PCB Layout](Images/PCBLayout.png)
+![PCB Layout](PCBLayout.png)
 
-![PCB Schematic](Images/PCBSchematic.png)
+![PCB Schematic](PCBSchematic.png)
 
 ## Wiring diagram
 
-![Wiring diagram](01%20Projects/Cody/Images/WiringDiagram.png)
+![Wiring diagram](Projects/Cody/Images/WiringDiagram.png)
 
 ## Onshape Document
 
@@ -59,23 +59,23 @@ https://cad.onshape.com/documents/a1e1109ed4daddff079aebb8/w/75daa850bdae83d3a80
 
 ## Cart screenshots
 
-![Cart screenshot](Cart/PCB1.png)
-![Cart screenshot](Cart/PCB2.png)
-![Cart screenshot](Cart/PCB3.png)
-![Cart screenshot](Cart/PCB4.png)
-![Cart screenshot](Cart/Amazon1.png)
-![Cart screenshot](Cart/Amazon2.png)
-![Cart screenshot](Cart/AliExpress1.png)
-![Cart screenshot](Cart/AliExpress2.png)
+![Cart screenshot](Projects/Cody/Cart/PCB1.png)
+![Cart screenshot](Projects/Cody/Cart/PCB2.png)
+![Cart screenshot](Projects/Cody/Cart/PCB3.png)
+![Cart screenshot](Projects/Cody/Cart/PCB4.png)
+![Cart screenshot](Amazon1.png)
+![Cart screenshot](Amazon2.png)
+![Cart screenshot](AliExpress1.png)
+![Cart screenshot](AliExpress2.png)
 
 > Note: I will be buying two of the carbon fiber rods above but AliExpress didn't feel like allowing me to add more than one to my cart at the moment
 
-![Cart screenshot](Cart/AliExpress3.png)
-![Cart screenshot](Cart/Shipping1.png)
-![Cart screenshot](Cart/Shipping2.png)
-![Cart screenshot](Cart/Shipping3.png)
-![Cart screenshot](Cart/Shipping4.png)
-![Cart screenshot](Cart/Shipping5.png)
+![Cart screenshot](AliExpress3.png)
+![Cart screenshot](Shipping1.png)
+![Cart screenshot](Shipping2.png)
+![Cart screenshot](Shipping3.png)
+![Cart screenshot](Shipping4.png)
+![Cart screenshot](Shipping5.png)
 
 ## BOM
 

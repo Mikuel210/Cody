@@ -17,7 +17,7 @@
 #include <vector>
 
 // Task parameters
-#define HZ 50.0
+#define HZ 120.0
 #define MOVEMENT_DECELERATION 250
 #define TOOLHEAD_DECELERATION 50
 #define WHEELS_DECELERATION 10
@@ -25,6 +25,9 @@
 
 class Cody {
   public:
+    static IDataProvider* dataProvider;
+    static IHardwareProvider* hardwareProvider;
+
     static void initialize(IDataProvider& dataProvider_, IHardwareProvider& hardwareProvider_) {
       dataProvider = &dataProvider_;
       hardwareProvider = &hardwareProvider_;
@@ -42,6 +45,7 @@ class Cody {
       args->positionMember = &FusionData::position;
       args->navigationTarget = &Navigation::drive;
       args->moveFunction = &moveRobot;
+      args->stopFunction = &stopRobot;
 
       task->start(args);
       return task;
@@ -63,6 +67,7 @@ class Cody {
       args->positionMember = &FusionData::position;
       args->navigationTarget = &Navigation::drive;
       args->moveFunction = &moveRobot;
+      args->stopFunction = &stopRobot;
 
       task->start(args);
       return task;
@@ -80,6 +85,7 @@ class Cody {
       args->positionMember = &FusionData::toolheadPosition;
       args->navigationTarget = &Navigation::toolhead;
       args->moveFunction = &moveToolhead;
+      args->stopFunction = &stopToolhead;
 
       task->start(args);
       return task;
@@ -101,6 +107,7 @@ class Cody {
       args->positionMember = &FusionData::toolheadPosition;
       args->navigationTarget = &Navigation::toolhead;
       args->moveFunction = &moveToolhead;
+      args->stopFunction = &stopToolhead;
 
       task->start(args);
       return task;
@@ -129,6 +136,7 @@ class Cody {
       args->positionMember = &FusionData::wheelsPosition;
       args->navigationTarget = &Navigation::wheels;
       args->moveFunction = &moveWheels;
+      args->stopFunction = &stopWheels;
 
       task->start(args);
       return task;
@@ -150,6 +158,7 @@ class Cody {
       args->positionMember = &FusionData::wheelsPosition;
       args->navigationTarget = &Navigation::wheels;
       args->moveFunction = &moveWheels;
+      args->stopFunction = &stopWheels;
 
       task->start(args);
       return task;
@@ -167,6 +176,7 @@ class Cody {
       args->positionMember = &FusionData::millPosition;
       args->navigationTarget = &Navigation::mill;
       args->moveFunction = &moveMill;
+      args->stopFunction = &stopMill;
 
       task->start(args);
       return task;
@@ -188,6 +198,7 @@ class Cody {
       args->positionMember = &FusionData::millPosition;
       args->navigationTarget = &Navigation::mill;
       args->moveFunction = &moveMill;
+      args->stopFunction = &stopMill;
 
       task->start(args);
       return task;
@@ -200,9 +211,6 @@ class Cody {
 
 
   private:
-    static IDataProvider* dataProvider;
-    static IHardwareProvider* hardwareProvider;
-
     static PursuitData pathData;
     static PursuitData toolheadPathData;
     static PursuitData wheelsPathData;
@@ -211,6 +219,7 @@ class Cody {
     // Move
     using PositionMember = Vector3 (FusionData::*);
     using MoveFunction = void (*)(FusionData, double);
+    using StopFunction = void (*)();
 
     struct TargetArgs : TaskArgs {
       Vector3* target;
@@ -219,6 +228,7 @@ class Cody {
       PositionMember positionMember;
       NavigationTarget* navigationTarget;
       MoveFunction moveFunction;
+      StopFunction stopFunction;
     };
 
     static void moveTask(void* task) {
@@ -244,6 +254,7 @@ class Cody {
         vTaskDelay(max(1000.0 / HZ - (millis() - msStart), 0.0));
       }
 
+      args->stopFunction();
       args->task->stop();
       delete args;
     }
@@ -256,6 +267,7 @@ class Cody {
       PositionMember positionMember;
       NavigationTarget* navigationTarget;
       MoveFunction moveFunction;
+      StopFunction stopFunction;
     };
 
     static void followPathTask(void* task) {
@@ -285,14 +297,13 @@ class Cody {
         args->navigationTarget->setTarget(lookaheadPoint);
 
         bool inLastSegment = data->lineIndex == data->points.size() - 2;
-        Serial.println(Pursuit::getClosestTime(lastSegment, fusionData.position));
-
         if (inLastSegment && Pursuit::getClosestTime(lastSegment, fusionData.position) >= 1) break;
 
         args->moveFunction(fusionData, args->speed);
         vTaskDelay(max(1000.0 / HZ - (millis() - msStart), 0.0));
       }
 
+      args->stopFunction();
       data->points.clear();
       args->task->stop();
       delete args;
@@ -348,5 +359,22 @@ class Cody {
     static void moveMill(FusionData fusionData, double speed) {
       MillData millData = Navigation::getMillData(fusionData, speed);
       hardwareProvider->moveMill(millData);
+    }
+
+    // Stop functions
+    static void stopRobot() {
+      hardwareProvider->move({{true, 0}, {true, 0}});
+    }
+
+    static void stopToolhead() {
+      hardwareProvider->moveToolhead({{true, 0}, {true, 0}});
+    }
+
+    static void stopWheels() {
+      hardwareProvider->moveWheels({{true, 0}});
+    }
+
+    static void stopMill() {
+      hardwareProvider->moveMill({{true, 0}});
     }
 };

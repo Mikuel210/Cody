@@ -1,5 +1,5 @@
 // Global parameters
-#define SIMULATION
+// #define SIMULATION
 #define BAUD_RATE 115200
 
 // Include dependencies
@@ -22,12 +22,17 @@
 // Setup
 void setup() {
   Serial.begin(BAUD_RATE);
+  delay(3000);
+  
   dataProvider.initialize();
   hardwareProvider.initialize();
-
-  BMS::initialize(dataProvider, hardwareProvider);
   Cody::initialize(dataProvider, hardwareProvider);
-  waitForButton();
+  BMS::initialize();
+
+  delay(5000);
+
+  // waitForButton();
+  Program::go();
 }
 
 void waitForButton() {
@@ -35,10 +40,8 @@ void waitForButton() {
 
   while (!sensorData.button) {
     sensorData = dataProvider.getData();
-    delay(1);
+    delay(10);
   }
-
-  Program::go();
 }
 
-void loop() { }
+void loop() {}

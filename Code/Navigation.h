@@ -9,12 +9,14 @@
 #include "MillData.h"
 #include "FusionData.h"
 #include "PID.h"
+#include "Plotter.h" //TODO
 
 // Navigation parameters
-#define MIN_PWM 5
+#define MIN_PWM 20
 #define TOOLHEAD_STOP_DISTANCE 1
 #define ERROR_DECELERATION 0.02
-#define STEERING_MAX_AUTHORITY 2.0
+#define STEERING_MAX_DISTANCE 250.0
+#define STEERING_MIN_DISTANCE 50.0
 
 class Navigation {
   public:
@@ -35,15 +37,16 @@ class Navigation {
 
       // Get distance correction
       double distance = getDistance(fusionData.position, drive.target);
-      double steeringAuthority = std::clamp(dmap(distance, 100.0, STEERING_MAX_AUTHORITY, 1.0, 0.0), 0.0, 1.0);
+      double steeringAuthority = std::clamp(dmap(distance, STEERING_MAX_DISTANCE, STEERING_MIN_DISTANCE, 1.0, 0.0), 0.0, 1.0);
       double orientationCorrection = -orientationPid.getCorrection(error) * steeringAuthority;
 
       double distanceAuthority = std::clamp(1.0 - std::abs(orientationCorrection) * ERROR_DECELERATION, 0.0, 1.0);
       double distancePwm = correctionToPwm(-distancePid.getCorrection(distance), drive) * distanceAuthority;
 
       // Construct navigation data
-      navigationData.leftMotor = getMotorData(distancePwm + orientationCorrection, speed, true);
-      navigationData.rightMotor = getMotorData(distancePwm - orientationCorrection, speed, true);
+      navigationData.leftMotor = getMotorData(distancePwm + orientationCorrection, speed, MIN_PWM);
+      navigationData.rightMotor = getMotorData(distancePwm - orientationCorrection, speed, MIN_PWM); 
+      navigationData.leftMotor.pwm *= 0.88; // Account for stronger motor
 
       return navigationData;
     }
@@ -114,13 +117,11 @@ class Navigation {
       return std::clamp(correction * 255.0 / target.decelerationDistance, -255.0, 255.0);
     }
 
-    static MotorData getMotorData(double pwm, double speed, bool addMinPwm = false) {
+    static MotorData getMotorData(double pwm, double speed, int minPwm = 0) {
       pwm = std::clamp(pwm * speed, -255.0, 255.0);
       
-      if (addMinPwm) {
-        if (pwm < MIN_PWM && pwm >= 0) pwm += MIN_PWM;
-        if (pwm > -MIN_PWM && pwm < 0) pwm -= MIN_PWM;
-      }      
+      if (pwm < minPwm && pwm >= 0) pwm = minPwm;
+      if (pwm > -minPwm && pwm < 0) pwm = -minPwm;
 
       return MotorData(pwm >= 0.0, std::abs(pwm));
     }

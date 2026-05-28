@@ -15,8 +15,8 @@
 #define MIN_PWM 20
 #define TOOLHEAD_STOP_DISTANCE 1
 #define ERROR_DECELERATION 0.02
-#define STEERING_MAX_DISTANCE 250.0
-#define STEERING_MIN_DISTANCE 50.0
+#define STEERING_MAX_DISTANCE 100.0
+#define STEERING_MIN_DISTANCE 25.0
 
 class Navigation {
   public:
@@ -29,7 +29,7 @@ class Navigation {
       NavigationData navigationData;
 
       // Get orientation correction
-      float targetOrientation = atan2(drive.target.x - fusionData.position.x, drive.target.y - fusionData.position.y) * (180.0 / M_PI);
+      float targetOrientation = atan2(drive.steeringTarget.x - fusionData.position.x, drive.steeringTarget.y - fusionData.position.y) * (180.0 / M_PI);
       float error = targetOrientation - fusionData.orientation;
 
       while (error > 180.0) { error -= 360.0; targetOrientation -= 360.0; }
@@ -45,8 +45,7 @@ class Navigation {
 
       // Construct navigation data
       navigationData.leftMotor = getMotorData(distancePwm + orientationCorrection, speed, MIN_PWM);
-      navigationData.rightMotor = getMotorData(distancePwm - orientationCorrection, speed, MIN_PWM); 
-      navigationData.leftMotor.pwm *= 0.88; // Account for stronger motor
+      navigationData.rightMotor = getMotorData(distancePwm - orientationCorrection, speed, MIN_PWM);
 
       return navigationData;
     }

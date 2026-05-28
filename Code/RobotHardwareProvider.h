@@ -22,13 +22,13 @@
 #define A1_IN_2 5
 #define A2_IN_1 6
 #define A2_IN_2 7
-#define A3_IN_1 10
-#define A3_IN_2 11
-#define A4_IN_1 12
-#define A4_IN_2 13
+#define A3_IN_1 8
+#define A3_IN_2 9
+#define A4_IN_1 10
+#define A4_IN_2 11
 
 // State indication
-#define LED 14
+#define LED 12
 #define BUZZER 5
 
 // PWM to PPM
@@ -47,33 +47,9 @@ class RobotHardwareProvider : public IHardwareProvider {
     }
 
     void move(NavigationData navigationData) override {
-     /* SensorData sensorData = Cody::dataProvider->getData();
-      
-      // Correct left speed
-      leftSpeedPid.setSetpoint(navigationData.leftMotor.pwm / 255.0 * WHEELS_MAX_PPM);
-      double leftPps = std::abs(sensorData.leftPulses - previousSensorData.leftPulses) * HZ;
-      double leftCorrection = leftSpeedPid.getCorrection(leftPps);
-      leftPwm = std::clamp(leftPwm + leftCorrection, 0.0, 255.0);
-
-      // Correct right speed
-      rightSpeedPid.setSetpoint(navigationData.rightMotor.pwm / 255.0 * WHEELS_MAX_PPM);
-      double rightPps = std::abs(sensorData.rightPulses - previousSensorData.rightPulses) * HZ;
-      double rightCorrection = rightSpeedPid.getCorrection(rightPps);
-      rightPwm = std::clamp(rightPwm + rightCorrection, 0.0, 255.0);
-  
-      // Move motors
-      Plotter::setLimits(0, 2100);
-      Plotter::plot("PPS", rightPps);
-      Plotter::plot("Target", navigationData.rightMotor.pwm);
-      Plotter::plot("PWM", rightPwm);
-      Plotter::endPlot();
-
-      navigationData.leftMotor.pwm = leftPwm;
-      navigationData.rightMotor.pwm = 255;*/
+      //navigationData.leftMotor.pwm *= 0.9;
       moveMotor(navigationData.leftMotor, L_IN_1, L_IN_2, L_PWM);
       moveMotor(navigationData.rightMotor, R_IN_1, R_IN_2, R_PWM);
-
-      //previousSensorData = sensorData;
     }
 
     void moveToolhead(ToolheadData toolheadData) override {
@@ -103,12 +79,6 @@ class RobotHardwareProvider : public IHardwareProvider {
     }
 
   private:
-    double leftPwm, rightPwm;
-    SensorData previousSensorData;
-
-    PID leftSpeedPid = PID(0.003, 0, 0);
-    PID rightSpeedPid = PID(0.003, 0, 0);
-
     void moveMotor(MotorData motorData, unsigned int in1, unsigned int in2, unsigned int pwm) {
       if (motorData.forwards) {
         GPIO::digitalWrite(in1, HIGH);

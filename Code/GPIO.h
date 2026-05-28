@@ -15,6 +15,7 @@ class GPIO {
     }
 
     static uint8_t digitalRead(uint8_t pin) {
+      PCF.write(pin, LOW);
       return PCF.read(pin);
     }
 

@@ -3,13 +3,6 @@
 
 struct NavigationTarget {
   Vector3 target;
+  Vector3 steeringTarget;
   double decelerationDistance;
-
-  virtual void setTarget(Vector3 target_) {
-    target = target_;
-  }
-  
-  void setDecelerationDistance(double decelerationDistance_) { 
-    decelerationDistance = decelerationDistance_; 
-  }
 };

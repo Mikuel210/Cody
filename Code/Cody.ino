@@ -27,12 +27,12 @@ void setup() {
   dataProvider.initialize();
   hardwareProvider.initialize();
   Cody::initialize(dataProvider, hardwareProvider);
-  BMS::initialize();
+  // BMS::initialize();
 
   delay(5000);
 
   // waitForButton();
-  Program::go();
+  // Program::go();
 }
 
 void waitForButton() {
@@ -44,4 +44,10 @@ void waitForButton() {
   }
 }
 
-void loop() {}
+void loop() {
+
+  GPIO::digitalWrite(15, LOW);
+  Serial.println(GPIO::digitalRead(15));
+  delay(100);
+
+}

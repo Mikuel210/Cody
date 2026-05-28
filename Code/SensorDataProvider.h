@@ -29,9 +29,9 @@
 #define A4_B 15
 
 // Switches
-#define LIMIT_1 15
-#define LIMIT_2 16
-#define BUTTON 17
+#define LIMIT_1 13
+#define LIMIT_2 14
+#define BUTTON 15
 
 // Sensors
 ADS1115_WE ADS = ADS1115_WE(ADS_ADDRESS);

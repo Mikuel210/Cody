@@ -6,7 +6,7 @@
 
 class Pursuit {
   public:
-    static Vector3 findLookahead(Vector3 position, PursuitData* data) {
+    static Vector3 findLookahead(Vector3 position, PursuitData* data, bool allowOverflow = false) {
       std::vector<Line> lines;
       std::vector<double> lookaheadTimes;
 
@@ -15,7 +15,7 @@ class Pursuit {
         lines.push_back(Line(data->points[i - 1], data->points[i]));
 
       for (Line line : lines)
-        lookaheadTimes.push_back(findLookaheadTime(position, line, data->lookaheadDistance));
+        lookaheadTimes.push_back(findLookaheadTime(position, line, data->lookaheadDistance, allowOverflow));
 
       // Find next lookahead point
       for (int i = lookaheadTimes.size() - 1; i >= 0; i--) {
@@ -36,7 +36,7 @@ class Pursuit {
       return lines[0].start;
     }
 
-    static double findLookaheadTime(Vector3 position, Line line, double r) {
+    static double findLookaheadTime(Vector3 position, Line line, double r, bool allowOverflow = false) {
       // Get vectors
       double dx = line.end.x - line.start.x;
       double dy = line.end.y - line.start.y;
@@ -50,8 +50,13 @@ class Pursuit {
       double d = b * b - 4 * a * c;
 
       if (d < 0) return -1;
-      double t1 = std::clamp((-b + sqrt(d)) / (2 * a), 0.0, 1.0);
-      double t2 = std::clamp((-b - sqrt(d)) / (2 * a), 0.0, 1.0);
+      double t1 = (-b + sqrt(d)) / (2 * a);
+      double t2 = (-b - sqrt(d)) / (2 * a);
+
+      if (!allowOverflow) {
+        t1 = std::clamp(t1, 0.0, 1.0);
+        t2 = std::clamp(t2, 0.0, 1.0);
+      }
 
       return max(t1, t2);
     }

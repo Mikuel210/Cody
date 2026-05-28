@@ -92,11 +92,7 @@ class Fusion {
         int differenceG = std::abs(colorData.g - compared.g);
         int differenceB = std::abs(colorData.b - compared.b);
         differences.push_back(differenceR + differenceG + differenceB);
-
-        Serial.print(differenceR + differenceG + differenceB); Serial.print(",");
       }
-
-      Serial.println();
 
       // Get min difference
       int minIndex = 0;

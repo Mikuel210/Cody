@@ -17,8 +17,9 @@
 #include <vector>
 
 // Task parameters
-#define HZ 120.0
-#define MOVEMENT_DECELERATION 250
+#define HZ 50.0
+#define ACCELERATION_MS 500.0
+#define MOVEMENT_DECELERATION 500.0
 #define TOOLHEAD_DECELERATION 50
 #define WHEELS_DECELERATION 10
 #define MILL_DECELERATION 25
@@ -234,15 +235,19 @@ class Cody {
     static void moveTask(void* task) {
       TargetArgs* args = (TargetArgs*)task;
       Vector3* target = args->target;
-      args->navigationTarget->setTarget(*target);
+      args->navigationTarget->target = *target;
 
       // Get movement line
       SensorData sensorData = dataProvider->getData();
       FusionData fusionData = Fusion::getData(sensorData);
       Line line(fusionData.position, *target);
 
+      // Acceleration
+      double speed = 0;
+      unsigned long msStart = millis();
+
       while (true) {
-        unsigned long msStart = millis();
+        unsigned long msLoop = millis();
 
         SensorData sensorData = dataProvider->getData();
         FusionData fusionData = Fusion::getData(sensorData);
@@ -250,8 +255,10 @@ class Cody {
 
         if (Pursuit::getClosestTime(line, position) >= 1) break;
 
-        args->moveFunction(fusionData, args->speed);
-        vTaskDelay(max(1000.0 / HZ - (millis() - msStart), 0.0));
+        speed = std::min((msLoop - msStart) / ACCELERATION_MS * args->speed, args->speed);
+        args->moveFunction(fusionData, speed);
+
+        vTaskDelay(max(1000.0 / HZ - (millis() - msLoop), 0.0));
       }
 
       args->stopFunction();
@@ -277,7 +284,7 @@ class Cody {
       // Set first point
       SensorData sensorData = dataProvider->getData();
       FusionData fusionData = Fusion::getData(sensorData);
-      args->navigationTarget->setDecelerationDistance(data->lookaheadDistance);
+      args->navigationTarget->decelerationDistance = data->lookaheadDistance;
 
       data->lineIndex = 0;
       data->points.insert(data->points.begin(), fusionData.*(args->positionMember));
@@ -294,10 +301,20 @@ class Cody {
         Vector3 position = fusionData.*(args->positionMember);
 
         Vector3 lookaheadPoint = Pursuit::findLookahead(position, data);
-        args->navigationTarget->setTarget(lookaheadPoint);
+        Vector3 overflowLookahead = Pursuit::findLookahead(position, data, true);
+
+        args->navigationTarget->target = lookaheadPoint;
+        args->navigationTarget->steeringTarget = overflowLookahead;
 
         bool inLastSegment = data->lineIndex == data->points.size() - 2;
         if (inLastSegment && Pursuit::getClosestTime(lastSegment, fusionData.position) >= 1) break;
+
+        Plotter::setLimits(0.0, 500.0);
+        Plotter::plot("x", position.x);
+        Plotter::plot("y", position.y);
+        Plotter::plot("tx", overflowLookahead.x);
+        Plotter::plot("ty", overflowLookahead.y);
+        Plotter::endPlot();
 
         args->moveFunction(fusionData, args->speed);
         vTaskDelay(max(1000.0 / HZ - (millis() - msStart), 0.0));

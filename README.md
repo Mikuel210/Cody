@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> FOR THE HORIZONS PROJECT: The correct repo is [here](https://github.com/Mikuel210/CodyFirmware). Sorry for the mistake!
+
+---
+
 ![Cody](Images/Logo.png)
 
 **Cody is a robot for the next season of WRO Robomission Senior.** 
